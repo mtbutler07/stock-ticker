@@ -4,14 +4,29 @@ use std::fmt;
 
 #[derive(Deserialize, Debug)]
 struct Stock {
-    c: f32,
-    d: f32,
-    dp: f32,
-    h: f32,
-    l: f32,
-    o: f32,
-    pc: f32,
-    t: i64,
+    #[serde(rename = "c")]
+    current: f32,
+
+    #[serde(rename = "d")]
+    change: f32,
+
+    #[serde(rename = "dp")]
+    change_percent: f32,
+
+    #[serde(rename = "h")]
+    high: f32,
+
+    #[serde(rename = "l")]
+    low: f32,
+
+    #[serde(rename = "o")]
+    open: f32,
+
+    #[serde(rename = "pc")]
+    prev_close: f32,
+
+    #[serde(rename = "t")]
+    time: i64,
 }
 
 impl fmt::Display for Stock {
@@ -22,7 +37,7 @@ impl fmt::Display for Stock {
             Current Price: {}
             Change: {}
             Percent Change: {}%",
-            self.c, self.d, self.dp
+            self.current, self.change, self.change_percent
         )
     }
 }
