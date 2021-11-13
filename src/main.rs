@@ -34,12 +34,34 @@ impl fmt::Display for Stock {
         write!(
             f,
             "
-            Current Price: {}
-            Change: {}
-            Percent Change: {}%",
-            self.current, self.change, self.change_percent
+            Current Price: ${}
+            Change: ${}
+            Percent Change: {}%,
+            High: ${}
+            Low: ${}
+            Open: ${}
+            Previous Close: ${}",
+            self.current,
+            self.change,
+            self.change_percent,
+            self.high,
+            self.low,
+            self.open,
+            self.prev_close
         )
     }
+}
+
+fn quote(symbol: &str, token: &str) -> Result<Stock, reqwest::Error> {
+    let url: &str = "https://finnhub.io/api/v1/quote";
+    let params = [("symbol", symbol), ("token", token)];
+    let client = reqwest::blocking::Client::new();
+
+    let response = client.get(url).query(&params).send()?;
+
+    let data = response.json::<Stock>().unwrap();
+
+    Ok(data)
 }
 
 fn main() {
@@ -68,14 +90,9 @@ fn main() {
 
     let symbol: &str = matches.value_of("symbol").unwrap();
     let token: &str = matches.value_of("token").unwrap();
-    let url = format!(
-        "https://finnhub.io/api/v1/quote?symbol={}&token={}",
-        symbol, token
-    );
 
-    let response = reqwest::blocking::get(url).unwrap();
-
-    let data = response.json::<Stock>().unwrap();
-
-    println!("{}", data);
+    match quote(symbol, token) {
+        Ok(data) => println!("{}", data),
+        Err(e) => eprintln!("{}", e),
+    }
 }

@@ -13,6 +13,7 @@ Simple Stock CLI tool, written in Rust, to pull quote data from Finnhub.io for a
 
 - [x] Use serde to rename finnhub fields
 - [] Improve Error Handling for User Input
+- [x] Improve Error Handling when making API call
 - [] Improve formatting when displaying quote information
-- [] Leverage .query() for building url instead of format macro
+- [x] Leverage .query() for building url query params instead of format macro
 - [] Improve usage documentation
