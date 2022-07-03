@@ -24,9 +24,6 @@ struct Stock {
 
     #[serde(rename = "pc")]
     prev_close: f32,
-
-    #[serde(rename = "t")]
-    time: i64,
 }
 
 impl fmt::Display for Stock {
